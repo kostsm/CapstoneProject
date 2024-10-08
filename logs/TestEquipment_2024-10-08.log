@@ -1,0 +1,4 @@
+[2024-10-08 23:31:39] [INFO] This is an INFO log entry
+[2024-10-08 23:31:39] [WARN] This is a WARN log entry
+[2024-10-08 23:31:39] [ERROR] This is an ERROR log entry
+[2024-10-08 23:31:39] [DEBUG] This is a DEBUG log entry

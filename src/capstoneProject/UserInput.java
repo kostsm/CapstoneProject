@@ -1,5 +1,6 @@
 package capstoneProject;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
@@ -15,6 +16,7 @@ import capstoneProject.LogFileManager;
 public class UserInput {
 	public static void main(String args[])throws IOException
     {	
+		System.out.println("Current working directory: " + new File(".").getAbsolutePath());
 		
 		// Create first Energy source
 		System.out.println("Welcome to your new smart Home. Please create a new energy Source by naming it:");
@@ -60,6 +62,25 @@ public class UserInput {
         
         LogFileManager logMng = new LogFileManager();
         
+        // Start automatic data exchange
+        new Thread(() -> {
+        	while (true) {
+        		try {
+        			Thread.sleep(10000);
+        			
+        			for (EnergySource src : engSys.getEnergySources()) {
+        				src.dataExchange();
+        			}
+        			
+        			for (ChargingStation chrg : engSys.getChargingStations()) {
+        				chrg.dataExchange();
+        			}
+
+        		} catch (InterruptedException | IOException e) {
+        			e.printStackTrace();
+        		}
+        	}
+        }).start();
         
         // run user interface
         while(true) {
@@ -154,10 +175,11 @@ public class UserInput {
                 			if (newPower<=100&&newPower>=0) {
                 				src.setPower(newPower);
                 				System.out.println(src.getName() +" now produces "+ src.getCurrentPower() + "kWh.");
-                				break;
+                				src.dataExchange();
                 			}else {
                 				System.out.println("Please specify a percentage between 0 and 100");
                 			}
+                			break;
                 				
                 		}
                 		// source not found
@@ -180,11 +202,11 @@ public class UserInput {
                 			if (newPower<=100&&newPower>=0) {
 	                			chrg.setPower(newPower);
 	                			System.out.println(chrg.getName() +" now consumes "+ chrg.getCurrentPower() + "kWh.");
-	                			break;
+	                			chrg.dataExchange();
                 			}else {
                 				System.out.println("Please specify a percentage between 0 and 100");
                 			}
-                			
+                			break;
                 		}
                 		// consumer not found
                 		System.out.println("Consumer by name " + userChngName + " not found.");

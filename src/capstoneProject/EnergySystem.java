@@ -1,6 +1,9 @@
 package capstoneProject;
 import capstoneProject.ChargingStation;
 import capstoneProject.EnergySource;
+
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,12 +13,12 @@ public class EnergySystem {
 	// We have energy stations, consumers and log files
 	private List<ChargingStation> chargingStations;
     private List<EnergySource> energySources;
-    private LogFileManager logs;
+    private LogFile logs;
     
-    public EnergySystem() {
+    public EnergySystem() throws IOException {
 		this.chargingStations = new ArrayList <ChargingStation>();
 		this.energySources = new ArrayList <EnergySource>();
-
+		this.logs = new LogFile("System", LocalDate.now());
 	}
     
     // Methods to modify our system: add new sources of energy or consumers

@@ -22,7 +22,7 @@ public class LogFile {
 	public LogFile(String equipmentName, LocalDate date) {
 		this.equipmentName = equipmentName;
 		this.date = date;
-		this.fileName = "logs/" + equipmentName + "_" + date.toString() + ".log";
+		this.fileName = "logs"+ File.separator + equipmentName + "_" + date.toString() + ".log";
 		this.file = new File(fileName);
 	}
 	
