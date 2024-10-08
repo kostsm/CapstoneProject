@@ -151,9 +151,14 @@ public class UserInput {
                 			// source found
                 			System.out.println("Please specify the percentage of power production for " + src.getName() +":");
                 			int newPower = Integer.parseInt(reader.readLine());
-                			src.setPower(newPower);
-                			System.out.println(src.getName() +" now produces "+ src.getCurrentPower() + "kWh.");
-                			break;
+                			if (newPower<=100&&newPower>=0) {
+                				src.setPower(newPower);
+                				System.out.println(src.getName() +" now produces "+ src.getCurrentPower() + "kWh.");
+                				break;
+                			}else {
+                				System.out.println("Please specify a percentage between 0 and 100");
+                			}
+                				
                 		}
                 		// source not found
                 		System.out.println("Source by name " + prodChngName + " not found.");
@@ -172,9 +177,14 @@ public class UserInput {
                 			// consumer found
                 			System.out.println("Please specify the percentage of power consumption for " + chrg.getName() +":");
                 			int newPower = Integer.parseInt(reader.readLine());
-                			chrg.setPower(newPower);
-                			System.out.println(chrg.getName() +" now consumes "+ chrg.getCurrentPower() + "kWh.");
-                			break;
+                			if (newPower<=100&&newPower>=0) {
+	                			chrg.setPower(newPower);
+	                			System.out.println(chrg.getName() +" now consumes "+ chrg.getCurrentPower() + "kWh.");
+	                			break;
+                			}else {
+                				System.out.println("Please specify a percentage between 0 and 100");
+                			}
+                			
                 		}
                 		// consumer not found
                 		System.out.println("Consumer by name " + userChngName + " not found.");
