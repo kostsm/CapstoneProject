@@ -5,16 +5,13 @@ import java.io.IOException;
 public class ChargingStation {
 	private String name;
 	private String location;
-	private float currentPowerConsumption;
-	private float maxPowerConsumption;
-	private int powerLevel;
+	private float powerConsumption;
 	private LogFileManager logs;
 	
-	public ChargingStation(String name, String location, float maxPowerConsumption) {
+	public ChargingStation(String name, String location, float powerConsumption) {
 		this.name = name;
 		this.location = location;
-		this.maxPowerConsumption = maxPowerConsumption; // Here we need to specify the exact number, not % (max consumption)
-		this.currentPowerConsumption = maxPowerConsumption;
+		this.powerConsumption = powerConsumption; // Here we need to specify the exact number, not % (max consumption)
 	}
 	
 	// Getters and setters
@@ -26,18 +23,13 @@ public class ChargingStation {
 		return location;
 	}
 	
-	public float getCurrentPower() {
-		return currentPowerConsumption;
-	}
-	
-	public float getMaxPower() {
-		return maxPowerConsumption;
+	public float getPower() {
+		return powerConsumption;
 	}
 	
 	public void setPower(float power) {
-		this.currentPowerConsumption = (power/100) * this.maxPowerConsumption; // Here it will convert specified power to %
+		this.powerConsumption = (power/100) * this.powerConsumption; // Here it will convert specified power to %
 	}
-	
 	
 	// Maybe here we can create data exchanges
 	public void dataExchange() throws IOException{
