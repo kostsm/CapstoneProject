@@ -10,19 +10,20 @@ import java.time.LocalDate;
 public class LogFileManager {
 
     // Functions to manage log files: create, move, delete...
-
 	public void createLog(String equipmentName, LocalDate date) throws IOException {
-        // Log files are stored here
-        String dir = "logs/";
-        Path path = new File(dir + equipmentName + "_" + date.toString() + ".log").toPath();
+		String dir = "logs/";
+		File logDir = new File(dir);
+		if (!logDir.exists()) {
+			logDir.mkdirs(); // Ensure the directory exists
+		}
+
+		Path path = new File(dir + equipmentName + "_" + date.toString() + ".log").toPath();
 		if (Files.notExists(path)) {
 			Files.createFile(path);
 			System.out.println("File created: " + path.getFileName());
-		}
-		else {
+		} else {
 			System.out.println("File already exists.");
 		}
-
 	}
 
 	public void moveLog(String logPath, String destinationPath) throws IOException {
