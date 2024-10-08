@@ -5,13 +5,15 @@ import java.io.IOException;
 public class EnergySource {
 	private String name;
 	private String type; // Solar, wind...
-	private float powerProduction; // The max amount of power it can produce
+	private float maxPowerProduction; // The max amount of power it can produce
+	private float currentPowerProduction;
 	private LogFileManager logs;
 	
-	public EnergySource(String name, String type, float powerProduction) {
+	public EnergySource(String name, String type, float maxPowerProduction) {
 		this.name = name;
 		this.type = type;
-		this.powerProduction = powerProduction;
+		this.maxPowerProduction = maxPowerProduction;
+		this.currentPowerProduction = maxPowerProduction;
 	}
 	
 	// Getters
@@ -23,8 +25,16 @@ public class EnergySource {
 		return type;
 	}
 	
-	public float getPower() {
-		return powerProduction;
+	public float getCurrentPower() {
+		return currentPowerProduction;
+	}
+	
+	public float getMaxPower() {
+		return maxPowerProduction;
+	}
+	
+	public void setPower(int power) {
+		this.currentPowerProduction = (power/100)*this.maxPowerProduction;
 	}
 	
 	// Same for data exchanges
