@@ -7,13 +7,18 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class LogFile {
 	private String fileName;
 	private String equipmentName;
 	private LocalDate date;
 	private File file;
-	
+
+	public enum LogLevel {
+		INFO, WARN, ERROR, DEBUG
+	}
 	public LogFile(String equipmentName, LocalDate date) {
 		this.equipmentName = equipmentName;
 		this.date = date;
@@ -47,10 +52,13 @@ public class LogFile {
 		return data.toString();
 	}
 	
-	public void writeData(String data) throws IOException {
+	public void writeData(String message, LogLevel logLevel) throws IOException {
 		// Code to write data
+		String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+		String formattedMessage = String.format("[%s] [%s] %s", timestamp, logLevel, message);
+
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {
-			bw.write(data);
+			bw.write(formattedMessage);
 			bw.newLine();
 		}
 	}
