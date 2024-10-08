@@ -3,10 +3,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.time.LocalDate;
 
 import capstoneProject.EnergySource;
 import capstoneProject.ChargingStation;
 import capstoneProject.EnergySystem;
+import capstoneProject.LogFileManager;
+
 
 
 public class UserInput {
@@ -55,6 +58,7 @@ public class UserInput {
         List<ChargingStation> chargingStations;
         List<EnergySource> energySources;
         
+        LogFileManager logMng = new LogFileManager();
         
         
         // run user interface
@@ -64,6 +68,7 @@ public class UserInput {
         	System.out.println("<add cons> to add another consumer");
         	System.out.println("<adj src> to adjust a power sources power output in %");
         	System.out.println("<adj cons> to adjust a consumers power consumption in %");
+        	System.out.println("<save log> to save a logfile of specified equipment");
         	System.out.println("<end> to leave this interface");
         	float totalPowerConsumption = 0;
         	float totalPowerProduction = 0;
@@ -175,9 +180,30 @@ public class UserInput {
                 		System.out.println("Consumer by name " + userChngName + " not found.");
                     }
         		}
+        	}else if(input.equals("save log")) {
+        		System.out.println("Please specify the name of the equipment you want to log: ");
+        		String equipmentName = reader.readLine();
+        		if(equipmentName.equals("back")) {
+        			// back to interface
+        			continue;
+        		}else {
+        			for (ChargingStation chrg : chargingStations) {
+        				if(chrg.getName().equals(equipmentName)) {
+        					LocalDate lt = LocalDate.now(); 
+        					logMng.createLog(equipmentName, lt);
+        					break;
+        				}
+        			}for (EnergySource src : energySources) {
+        				if(src.getName().equals(equipmentName)) {
+        					LocalDate lt = LocalDate.now(); 
+        					logMng.createLog(equipmentName, lt);
+        					break;
+        				}
+        			}
+        			System.out.println("No equipment by name " + equipmentName + "found.");
+
+        		}
+        	}
         }
-        	
-        
     }
-}
 }
