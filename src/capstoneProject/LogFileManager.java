@@ -8,15 +8,21 @@ import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 
 public class LogFileManager {
-	private String dir = "logs/"; // Log files are stored here
-	
-	// Functions to manage log files: create, move, delete...
+
+    // Functions to manage log files: create, move, delete...
 
 	public void createLog(String equipmentName, LocalDate date) throws IOException {
-		LogFile logFile = new LogFile(equipmentName, date);
-		if (!logFile.getFile().exists()) {
-			logFile.getFile().createNewFile();
+        // Log files are stored here
+        String dir = "logs/";
+        Path path = new File(dir + equipmentName + "_" + date.toString() + ".log").toPath();
+		if (Files.notExists(path)) {
+			Files.createFile(path);
+			System.out.println("File created: " + path.getFileName());
 		}
+		else {
+			System.out.println("File already exists.");
+		}
+
 	}
 
 	public void moveLog(String logPath, String destinationPath) throws IOException {
@@ -37,8 +43,9 @@ public class LogFileManager {
 		moveLog(logPath, archivedDir + new File(logPath).getName());
 	}
 	
-	public File openLog(String equipmentName,LocalDate date) {
+	public LogFile openLog(String equipmentName, LocalDate date) {
 		// Code to open log
 		return new LogFile(equipmentName, date);
 	}
 }
+
