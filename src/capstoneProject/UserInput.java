@@ -3,8 +3,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import capstoneProject.EnergySource;
 import capstoneProject.ChargingStation;
@@ -61,6 +64,8 @@ public class UserInput {
         List<EnergySource> energySources;
         
         LogFileManager logMng = new LogFileManager();
+        
+        File dir = new File("logs/");
         
         // Start automatic data exchange
         new Thread(() -> {
@@ -231,9 +236,59 @@ public class UserInput {
         					logMng.createLog(equipmentName, lt);
         					break;
         				}
+        				System.out.println("No equipment by name " + equipmentName + "found.");
         			}
+        		}
+        	}else if (input.equals("load log")) {
+        		System.out.println("Please specify the name of the equipment you want to load a logfile of: ");
+        		String equipmentName = reader.readLine();
+        		if(equipmentName.equals("back")) {
+        			// back to interface
+        			continue;
+        		}else {
+        			boolean foundEquipment=false;
+        			for (ChargingStation chrg : chargingStations) {
+        				if(chrg.getName().equals(equipmentName)) {
+        					foundEquipment=true;
+        					break;
+        				}
+        			}for (EnergySource src : energySources) {
+        				if(src.getName().equals(equipmentName)) {
+        					foundEquipment=true;
+        					break;
+        				}	
+        			}
+        			if(foundEquipment) {
+        				Pattern pattern = Pattern.compile(equipmentName, Pattern.CASE_INSENSITIVE);
+        				File[] directoryListing = dir.listFiles();
+        				
+        				List<File> listMatches = new ArrayList<File>();
+        				if (directoryListing != null) {
+        				    for (File logfile : directoryListing) {
+        				    	Matcher matcher = pattern.matcher(logfile.getName());
+        				    	boolean matchFound = matcher.find();
+        				    	if(matchFound)  {
+        				    		listMatches.add(logfile);
+        				    	}
+        				    }
+        				    if(listMatches.size()>0) {
+        				    	System.out.println("Please choose the logfile by number:");
+        				    	for (int i = 0; i < listMatches.size(); i++) {
+        				    		System.out.println(i+" - " + listMatches.get(i).getName());
+        				    	}
+        				    	int logfileNumber = Integer.parseInt(reader.readLine());
+        				    	if (logfileNumber<=listMatches.size()) {
+        				    		logMng.openLog(listMatches.get(logfileNumber));
+        				    	}
+        				    	
+        				    }
+        				  } else {
+        					  System.out.println("Invalid Path:" + dir.getName());
+        				  }
+        			}else {
         			System.out.println("No equipment by name " + equipmentName + "found.");
-
+        			}
+        			
         		}
         	}
         }
