@@ -41,18 +41,20 @@ public class LogFile {
 	}
 	
 	// Functions to arrange dataflow
-	public String readData() throws IOException {
+	public String readData() throws LogFileException {
 		StringBuilder data = new StringBuilder();
 		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 			String line;
 			while ((line = br.readLine()) != null) {
 				data.append(line).append("\n");
 			}
+		} catch (IOException e) {
+			throw new LogFileException("Error while reading from log file: " + fileName, e);
 		}
 		return data.toString();
 	}
 	
-	public void writeData(String message, LogLevel logLevel) throws IOException {
+	public void writeData(String message, LogLevel logLevel) throws LogFileException {
 		// Code to write data
 		String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 		String formattedMessage = String.format("[%s] [%s] %s", timestamp, logLevel, message);
@@ -60,9 +62,8 @@ public class LogFile {
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {
 			bw.write(formattedMessage);
 			bw.newLine();
-		}catch(IOException e) {
-			System.out.println("FAILED to write to file " + file.toString());
-			throw e;
+		} catch (IOException e) {
+			throw new LogFileException("Error while writing to log file: " + fileName, e);
 		}
 	}
 }
