@@ -55,7 +55,6 @@ public class EnergySource {
 		}
 
 		String receivedData = byteOutput.toString();
-
 		logs.writeData("Data Exchange (Byte Stream): " + receivedData, LogFile.LogLevel.INFO);
 	}
 }

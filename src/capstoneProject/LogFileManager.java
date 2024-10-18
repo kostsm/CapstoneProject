@@ -16,13 +16,17 @@ public class LogFileManager {
 		if (!logDir.exists()) {
 			logDir.mkdirs(); // Ensure the directory exists
 		}
-
-		Path path = new File(dir + equipmentName + "_" + date.toString() + ".log").toPath();
-		if (Files.notExists(path)) {
-			Files.createFile(path);
-			System.out.println("File created: " + path.getFileName());
-		} else {
-			System.out.println("File already exists.");
+		try {
+			Path path = new File(dir + equipmentName + "_" + date.toString() + ".log").toPath();
+			if (Files.notExists(path)) {
+				Files.createFile(path);
+				System.out.println("File created: " + path.getFileName());
+			} else {
+				System.out.println("File already exists.");
+			}
+		}catch(Exception e) {
+			System.out.println("FAILED to create Logfile " +dir + equipmentName + "_" + date.toString() + ".log");
+			throw e;
 		}
 	}
 

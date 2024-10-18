@@ -60,6 +60,9 @@ public class LogFile {
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {
 			bw.write(formattedMessage);
 			bw.newLine();
+		}catch(IOException e) {
+			System.out.println("FAILED to write to file " + file.toString());
+			throw e;
 		}
 	}
 }
