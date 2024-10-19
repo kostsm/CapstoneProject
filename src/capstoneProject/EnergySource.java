@@ -10,7 +10,7 @@ public class EnergySource {
 	private String type; // Solar, wind...
 	private float maxPowerProduction; // The max amount of power it can produce
 	private float currentPowerProduction;
-	private LogFile logs;
+	LogFile logs;
 	
 	public EnergySource(String name, String type, float maxPowerProduction) throws IOException {
 		this.name = name;
@@ -37,24 +37,46 @@ public class EnergySource {
 		return maxPowerProduction;
 	}
 	
-	public void setPower(int power) {
+	public void setPower(float power) {
+		if (power < 0 || power > 100) {
+			throw new IllegalArgumentException("Power must be between 0 and 100");
+		}
 		this.currentPowerProduction = (power/100)*this.maxPowerProduction;
 	}
 	
 	// Simulation of byte data exchange
-	public void dataExchange() throws IOException, ChainException{
-		String data = "EnergySource:" + name + ", power:" + currentPowerProduction;
-		byte[] dataBytes = data.getBytes();
-
-		ByteArrayInputStream byteInput = new ByteArrayInputStream(dataBytes);
-		ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-
-		int bytes;
-		while ((bytes = byteInput.read()) != -1) {
-			byteOutput.write(bytes);
+	public void dataExchange() throws MultipleExceptions, ChainException {
+		MultipleExceptions exceptions = 
+				new MultipleExceptions("Errors in enegry source: " + name);
+		
+		try {
+			String data = "EnergySource:" + name + ", power:" + currentPowerProduction;
+			byte[] dataBytes = data.getBytes();
+	
+			ByteArrayInputStream byteInput = new ByteArrayInputStream(dataBytes);
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			
+			try {
+				int bytes;
+				while ((bytes = byteInput.read()) != -1) {
+					byteOutput.write(bytes);
+				}
+	
+			String receivedData = byteOutput.toString();
+			logs.writeData("Data Exchange (Byte Stream): " + receivedData, LogFile.LogLevel.INFO);
+			}
+			catch (IOException e) {
+				exceptions.addException(e);
+			}
 		}
-
-		String receivedData = byteOutput.toString();
-		logs.writeData("Data Exchange (Byte Stream): " + receivedData, LogFile.LogLevel.INFO);
+		catch (Exception e) {
+			exceptions.addException(e);
+		}
+		
+		if (!exceptions.getExceptions().isEmpty()) {
+			throw exceptions;
+		}
 	}
 }
+
+

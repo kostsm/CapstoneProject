@@ -39,23 +39,46 @@ public class ChargingStation {
 	}
 	
 	public void setPower(float power) {
+		if (power < 0 || power > 100) {
+			throw new IllegalArgumentException("Power must be between 0 and 100");
+		}
 		this.currentPowerConsumption = (power/100) * this.maxPowerConsumption; // Here it will convert specified power to %
 	}
 	
 	// Simulation of data exchange
-	public void dataExchange() throws IOException, ChainException {
-		String data = "ChargingStation:" + name + ", power:" + currentPowerConsumption;
+	public void dataExchange() throws MultipleExceptions, ChainException {
+		
+		MultipleExceptions exceptions = 
+				new MultipleExceptions("Errors in charging station: " + name);
 
-		StringReader charInput = new StringReader(data);
-		StringWriter charOutput = new StringWriter();
+		try {
 
-		int chars;
-		while ((chars = charInput.read()) != -1) {
-			charOutput.write(chars);
+			String data = "ChargingStation:" + name + ", power:" + currentPowerConsumption;
+	
+			StringReader charInput = new StringReader(data);
+			StringWriter charOutput = new StringWriter();
+			
+			try {
+				
+				int chars;
+				while ((chars = charInput.read()) != -1) {
+					charOutput.write(chars);
+				}
+
+			String receivedData = charOutput.toString();
+	
+			logs.writeData("Data Exchange (Character Stream): " + receivedData, LogFile.LogLevel.INFO);
+			}
+			catch (IOException e) {
+				exceptions.addException(e);
+			}
 		}
-
-		String receivedData = charOutput.toString();
-
-		logs.writeData("Data Exchange (Character Stream): " + receivedData, LogFile.LogLevel.INFO);
+		catch (Exception e) {
+			exceptions.addException(e);
+		}
+		
+		if (!exceptions.getExceptions().isEmpty()) {
+			throw exceptions;
+		}
 	}
 }

@@ -89,11 +89,13 @@ public class UserInput {
         				chrg.dataExchange();
         			}
 
-        		} catch (InterruptedException | IOException e) {
+        		} catch (InterruptedException e) {
         			e.printStackTrace();
         		} catch (ChainException e) {
                     throw new RuntimeException(e);
-                }
+                } catch (MultipleExceptions me) {
+					me.printStackTrace();
+				}
             }
         }).start();
         
@@ -191,7 +193,14 @@ public class UserInput {
 	                			if (newPower<=100&&newPower>=0) {
 	                				src.setPower(newPower);
 	                				System.out.println(src.getName() +" now produces "+ src.getCurrentPower() + "kWh.");
-	                				src.dataExchange();
+	                				try {
+	                					src.dataExchange();
+	                				}
+	                				catch (MultipleExceptions me) {
+	                					System.err.println("Error exchanging data for energy source " + src.getName());
+	                					for (Exception e: me.getExceptions()) {
+	                						e.printStackTrace();	                					}
+	                				}
 	                			}else {
 	                				System.out.println("Please specify a percentage between 0 and 100");
 	                			}
@@ -218,7 +227,14 @@ public class UserInput {
 	                			if (newPower<=100&&newPower>=0) {
 		                			chrg.setPower(newPower);
 		                			System.out.println(chrg.getName() +" now consumes "+ chrg.getCurrentPower() + "kWh.");
-		                			chrg.dataExchange();
+		                			try {
+		                				chrg.dataExchange();
+		                			}
+		                			catch (MultipleExceptions me) {
+	                					System.err.println("Error exchanging data for charging station " + chrg.getName());
+	                					for (Exception e: me.getExceptions()) {
+	                						e.printStackTrace();	                					}
+	                				}
 	                			}else {
 	                				System.out.println("Please specify a percentage between 0 and 100");
 	                			}

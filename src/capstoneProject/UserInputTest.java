@@ -65,7 +65,7 @@ class UserInputTest {
 	}
 	
 	@Test
-	void testMainAdjSrc() throws IOException,ChainException {
+	void testMainAdjSrc() throws IOException,ChainException, MultipleExceptions {
 		final EnergySystem engsys = new EnergySystem();
 		EnergySource newEngSrc = new EnergySource("test", "test", (float)100);
 		engsys.addEnergySource(newEngSrc);
@@ -97,7 +97,7 @@ class UserInputTest {
 	}
 	
 	@Test
-	void testMainAdjChrg() throws IOException, ChainException {
+	void testMainAdjChrg() throws IOException, ChainException, MultipleExceptions {
 			final EnergySystem engsys = new EnergySystem();
 			ChargingStation chrgStation = new ChargingStation("test", "test", (float)100);
 			engsys.addChargingStation(chrgStation);
