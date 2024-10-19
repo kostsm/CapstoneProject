@@ -42,7 +42,7 @@ public class EnergySource {
 	}
 	
 	// Simulation of byte data exchange
-	public void dataExchange() throws IOException{
+	public void dataExchange() throws IOException, ChainException{
 		String data = "EnergySource:" + name + ", power:" + currentPowerProduction;
 		byte[] dataBytes = data.getBytes();
 

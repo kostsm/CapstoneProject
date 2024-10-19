@@ -91,8 +91,10 @@ public class UserInput {
 
         		} catch (InterruptedException | IOException e) {
         			e.printStackTrace();
-        		}
-        	}
+        		} catch (ChainException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }).start();
         
         // run user interface

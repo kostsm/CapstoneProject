@@ -43,7 +43,7 @@ public class ChargingStation {
 	}
 	
 	// Simulation of data exchange
-	public void dataExchange() throws IOException{
+	public void dataExchange() throws IOException, ChainException {
 		String data = "ChargingStation:" + name + ", power:" + currentPowerConsumption;
 
 		StringReader charInput = new StringReader(data);
