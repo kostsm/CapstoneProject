@@ -20,7 +20,7 @@ public class UserInput {
 	public static void main(String args[])throws IOException
     {	
 		System.out.println("Current working directory: " + new File(".").getAbsolutePath());
-		
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		// Create first Energy source
 		System.out.println("Welcome to your new smart Home. Please create a new energy Source by naming it:");
         // Using Scanner for Getting Input from User
@@ -31,7 +31,7 @@ public class UserInput {
 		String consumerName = "";
 		String consumerLocation = "";
 		int consumerMaxPower = 0;
-        try(BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))){
+        try{
 
 	        // Reading data using readLine
 	        sourceName = reader.readLine();
@@ -100,7 +100,7 @@ public class UserInput {
         }).start();
         
         // run user interface
-        try(BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))){
+        try {
 	        while(true) {
 	        	System.out.println("\n Welcome to the smart home user interface. Your options:");
 	        	System.out.println("<add src> to add another power source");
@@ -193,14 +193,14 @@ public class UserInput {
 	                			if (newPower<=100&&newPower>=0) {
 	                				src.setPower(newPower);
 	                				System.out.println(src.getName() +" now produces "+ src.getCurrentPower() + "kWh.");
-	                				try {
+	                				/*try {
 	                					src.dataExchange();
 	                				}
 	                				catch (MultipleExceptions me) {
 	                					System.err.println("Error exchanging data for energy source " + src.getName());
 	                					for (Exception e: me.getExceptions()) {
 	                						e.printStackTrace();	                					}
-	                				}
+	                				}*/
 	                			}else {
 	                				System.out.println("Please specify a percentage between 0 and 100");
 	                			}
@@ -227,14 +227,14 @@ public class UserInput {
 	                			if (newPower<=100&&newPower>=0) {
 		                			chrg.setPower(newPower);
 		                			System.out.println(chrg.getName() +" now consumes "+ chrg.getCurrentPower() + "kWh.");
-		                			try {
+		                			/*try {
 		                				chrg.dataExchange();
 		                			}
 		                			catch (MultipleExceptions me) {
 	                					System.err.println("Error exchanging data for charging station " + chrg.getName());
 	                					for (Exception e: me.getExceptions()) {
 	                						e.printStackTrace();	                					}
-	                				}
+	                				}*/
 	                			}else {
 	                				System.out.println("Please specify a percentage between 0 and 100");
 	                			}

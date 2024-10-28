@@ -5,12 +5,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 
-public class EnergySource {
+public class EnergySource implements Runnable {
 	private String name;
 	private String type; // Solar, wind...
 	private float maxPowerProduction; // The max amount of power it can produce
 	private float currentPowerProduction;
 	LogFile logs;
+	private Battery battery;
 	
 	public EnergySource(String name, String type, float maxPowerProduction) throws IOException {
 		this.name = name;
@@ -18,6 +19,7 @@ public class EnergySource {
 		this.maxPowerProduction = maxPowerProduction;
 		this.currentPowerProduction = maxPowerProduction;
 		this.logs = new LogFile(name, LocalDate.now());
+		this.battery = battery;
 	}
 	
 	// Getters
@@ -76,6 +78,21 @@ public class EnergySource {
 		if (!exceptions.getExceptions().isEmpty()) {
 			throw exceptions;
 		}
+	}
+
+	@Override
+	public void run() {
+		try {
+			int chargeAmount = (int)currentPowerProduction; 
+			battery.charge(chargeAmount);
+
+			logs.writeData("Charged battery " + battery.getName() + " with " + chargeAmount + " units.", LogFile.LogLevel.INFO);
+
+			//dataExchange();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 }
 
