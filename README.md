@@ -8,7 +8,7 @@ This project is developed as part of the Java Compact Programming Course. It sim
 ### Team Members and Tasks
 
 - **Konstantin Smirnov - 7221877**:
-  - Creating classes: `EnergySource`, `ChargingStation`, `EnergySystem`, `LogFile` (with placeholders methods), `LogFileManagement` (with placeholders methods)
+  - Creating classes: `EnergySource`, `ChargingStation`, `EnergySystem`, `Battery`, `LogFile` (with placeholders methods), `LogFileManagement` (with placeholders methods)
   - Handling Multiple Exceptions
   - Creating Unit Tests for `ChargingStation` and `EnergySource` classes
 
@@ -45,6 +45,7 @@ CapstoneProject/
 │       ├── MultipleExceptionsTest.java
 │       ├── TestSuite.java
 │       ├── UserInput.java
+│       ├── Battery.java
 │       └── UserInputTest.java
 ├── .classpath              # Classpath configurations for the project
 ├── .project                # Project configurations
