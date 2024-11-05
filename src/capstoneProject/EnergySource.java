@@ -13,7 +13,7 @@ public class EnergySource implements Runnable {
 	LogFile logs;
 	private Battery battery;
 	
-	public EnergySource(String name, String type, float maxPowerProduction) throws IOException {
+	public EnergySource(String name, String type, float maxPowerProduction, Battery battery) throws IOException {
 		this.name = name;
 		this.type = type;
 		this.maxPowerProduction = maxPowerProduction;
@@ -83,7 +83,7 @@ public class EnergySource implements Runnable {
 	@Override
 	public void run() {
 		try {
-			this.dataExchange();
+        	this.dataExchange();
 			int chargeAmount = (int)currentPowerProduction; 
 			battery.charge(chargeAmount);
 
@@ -92,8 +92,7 @@ public class EnergySource implements Runnable {
 			//dataExchange();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		
+		}		
 	}
 }
 

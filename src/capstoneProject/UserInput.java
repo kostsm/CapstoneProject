@@ -38,12 +38,9 @@ public class UserInput {
 	        sourceName = reader.readLine();
 	        System.out.println("You entered the name " + sourceName);
 	        System.out.println("Please specify the type of "+ sourceName);
-	        
 	        sourceType = reader.readLine();
 	        
 	        System.out.println("Please specify the sources' maximum power production in kWh:");
-	        
-	       
 	        sourceMaxPower = Integer.parseInt(reader.readLine());
 	        
 	        System.out.println("New power source " + sourceName + " of type " + sourceType + " with a max. production of " + sourceMaxPower + "kWh created");
@@ -62,8 +59,12 @@ public class UserInput {
         }catch(Exception e) {
         	System.out.println("Failed to create Buffered Reader. Creating emtpy entitys.");
         }
-        EnergySource engSource = new EnergySource(sourceName, sourceType, sourceMaxPower);
+        EnergySource engSource = new EnergySource(sourceName, sourceType, sourceMaxPower, mainBattery);
     	ChargingStation chrgStation = new ChargingStation(consumerName, consumerLocation, consumerMaxPower, mainBattery);
+    	
+    	new Thread(engSource).start();
+    	new Thread(chrgStation).start();
+    	
      // establish energy system and add src and consumer
         EnergySystem engSys = new EnergySystem();
         engSys.addChargingStation(chrgStation);
@@ -77,29 +78,30 @@ public class UserInput {
         File dir = new File("logs/");
         
         // Start automatic data exchange
-        new Thread(() -> {
-        	while (true) {
-        		try {
-        			Thread.sleep(10000);
-        			
-        			for (EnergySource src : engSys.getEnergySources()) {
-        				src.dataExchange();
-        			}
-        			
-        			for (ChargingStation chrg : engSys.getChargingStations()) {
-        				chrg.dataExchange();
-        			}
-
-        		} catch (InterruptedException e) {
-        			e.printStackTrace();
-        		} catch (ChainException e) {
-                    throw new RuntimeException(e);
-                } catch (MultipleExceptions me) {
-					me.printStackTrace();
-				}
-            }
-        }).start();
-        
+//        new Thread(() -> {
+//        	while (true) {
+//        		try {
+//        			Thread.sleep(10000);
+//        			
+//        			for (EnergySource src : engSys.getEnergySources()) {
+//        				//Only 
+//        				src.dataExchange();
+//        			}
+//        			
+//        			for (ChargingStation chrg : engSys.getChargingStations()) {
+//        				chrg.dataExchange();
+//        			}
+//
+//        		} catch (InterruptedException e) {
+//        			e.printStackTrace();
+//        		} catch (ChainException e) {
+//                    throw new RuntimeException(e);
+//                } catch (MultipleExceptions me) {
+//					me.printStackTrace();
+//				}
+//            }
+//        }).start();
+//        
         // run user interface
         try {
 	        while(true) {
@@ -154,7 +156,7 @@ public class UserInput {
 	        			String srcType = reader.readLine();
 	        			System.out.println("Please specify the sources' maximum power production in kWh:");
 	        			int srcPower = Integer.parseInt(reader.readLine());
-	        			EnergySource newEngSource = new EnergySource(srcName, srcType, srcPower);
+	        			EnergySource newEngSource = new EnergySource(srcName, srcType, srcPower,mainBattery);
 	        			engSys.addEnergySource(newEngSource);
 	        			System.out.println("New Energy Source added.");
 	        			// Start automatic data exchange

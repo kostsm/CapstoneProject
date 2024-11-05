@@ -14,6 +14,7 @@ class UserInputTest {
 	void testMainAddSrc() throws IOException, IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
 		final EnergySystem engsys = new EnergySystem();
 		final Field field = engsys.getClass().getDeclaredField("energySources");
+		Battery mainBattery = new Battery("mainBattery", 1000);
         field.setAccessible(true);
 		List<EnergySource> list  = (List<EnergySource>) field.get(engsys);
 		int length1 = list.size();
@@ -28,7 +29,7 @@ class UserInputTest {
 			String srcType = "test";
 			System.out.println("Please specify the consumers' maximum power sonsumption in kWh:");
 			int srcPower = 100;
-			EnergySource newEngSrc = new EnergySource(srcName, srcType, srcPower);
+			EnergySource newEngSrc = new EnergySource(srcName, srcType, srcPower,mainBattery);
 			engsys.addEnergySource(newEngSrc);
 			System.out.println("New consumer added.");
 		}
@@ -68,7 +69,8 @@ class UserInputTest {
 	@Test
 	void testMainAdjSrc() throws IOException,ChainException, MultipleExceptions {
 		final EnergySystem engsys = new EnergySystem();
-		EnergySource newEngSrc = new EnergySource("test", "test", (float)100);
+		Battery mainBattery = new Battery("mainBattery", 1000);
+		EnergySource newEngSrc = new EnergySource("test", "test", (float)100,mainBattery);
 		engsys.addEnergySource(newEngSrc);
 		List<EnergySource> energySources = engsys.getEnergySources();
 		String prodChngName = "test";
@@ -133,8 +135,8 @@ class UserInputTest {
 	@Test
 	void testMainCheckPower() throws IOException {
 		EnergySystem engSys = new EnergySystem();
-		EnergySource engSource = new EnergySource("test", "test", (float) 100);
 		Battery mainBattery = new Battery("mainBattery", 1000);
+		EnergySource engSource = new EnergySource("test", "test", (float) 100,mainBattery);
 		ChargingStation chrgStation = new ChargingStation("test", "test", (float) 110,mainBattery);
 		engSys.addChargingStation(chrgStation);
         engSys.addEnergySource(engSource);

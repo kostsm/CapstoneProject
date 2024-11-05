@@ -21,6 +21,7 @@ public class Battery {
 		}
 
 		int charge = currentPower + num;
+		// Does this kind of value check make sense if currentPower is overwritten by charge anyway?
 		if (charge > maxPower) {
 			currentPower = maxPower;
 		}

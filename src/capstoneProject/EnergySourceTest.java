@@ -15,7 +15,8 @@ public class EnergySourceTest {
 
 	@BeforeEach
 	public void setUp() throws IOException {
-		energySource = new EnergySource("Name", "Type", 500);
+		Battery mainBattery = new Battery("mainBattery", 1000);
+		energySource = new EnergySource("Name", "Type", 500,mainBattery);
 	}
 
 	@Test

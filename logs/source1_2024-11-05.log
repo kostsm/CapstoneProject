@@ -1,0 +1,3 @@
+[2024-11-05 12:23:43] [INFO] Data Exchange (Byte Stream): EnergySource:source1, power:200.0
+[2024-11-05 12:27:26] [INFO] Data Exchange (Byte Stream): EnergySource:source1, power:550.0
+[2024-11-05 12:27:26] [INFO] Charged battery mainBattery with 550 units.

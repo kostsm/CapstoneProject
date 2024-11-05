@@ -19,7 +19,8 @@ public class MultipleExceptionsTest {
 	
 	@Test
 	public void testExceptionThrowing() throws IOException {
-		EnergySource es = new EnergySource("Test", "Wind", 500);
+		Battery mainBattery = new Battery("mainBattery", 1000);
+		EnergySource es = new EnergySource("Test", "Wind", 500,mainBattery);
 		es.logs = null;
 		
 		Exception e = assertThrows(MultipleExceptions.class, () -> {
