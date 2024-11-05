@@ -11,6 +11,7 @@ This project is developed as part of the Java Compact Programming Course. It sim
   - Creating classes: `EnergySource`, `ChargingStation`, `EnergySystem`, `Battery`, `LogFile` (with placeholders methods), `LogFileManagement` (with placeholders methods)
   - Handling Multiple Exceptions
   - Creating Unit Tests for `ChargingStation` and `EnergySource` classes
+  - Simulation of multi-thread charging of the battery from energy sources
 
 - **Sebastian Rudolph - 7215190**:
   - *specify*
