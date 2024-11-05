@@ -15,7 +15,8 @@ public class ChargingStationTest {
 
 	@BeforeEach
 	public void setUp() throws IOException {
-		chargingStation = new ChargingStation("Name", "Location", 500);
+		Battery mainBattery = new Battery("mainBattery", 1000);
+		chargingStation = new ChargingStation("Name", "Location", 500,mainBattery);
 	}
 
 	@Test

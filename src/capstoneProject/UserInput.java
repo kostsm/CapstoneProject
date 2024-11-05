@@ -31,6 +31,7 @@ public class UserInput {
 		String consumerName = "";
 		String consumerLocation = "";
 		int consumerMaxPower = 0;
+		Battery mainBattery = new Battery("mainBattery", 1000);
         try{
 
 	        // Reading data using readLine
@@ -62,7 +63,7 @@ public class UserInput {
         	System.out.println("Failed to create Buffered Reader. Creating emtpy entitys.");
         }
         EnergySource engSource = new EnergySource(sourceName, sourceType, sourceMaxPower);
-    	ChargingStation chrgStation = new ChargingStation(consumerName, consumerLocation, consumerMaxPower);
+    	ChargingStation chrgStation = new ChargingStation(consumerName, consumerLocation, consumerMaxPower, mainBattery);
      // establish energy system and add src and consumer
         EnergySystem engSys = new EnergySystem();
         engSys.addChargingStation(chrgStation);
@@ -156,6 +157,8 @@ public class UserInput {
 	        			EnergySource newEngSource = new EnergySource(srcName, srcType, srcPower);
 	        			engSys.addEnergySource(newEngSource);
 	        			System.out.println("New Energy Source added.");
+	        			// Start automatic data exchange
+	        			new Thread(newEngSource).start();
 	        			continue;
 	        		}
 	        	}else if(input.equals("add cons")) {
@@ -171,9 +174,11 @@ public class UserInput {
 	        			String useLocation = reader.readLine();
 	        			System.out.println("Please specify the consumers' maximum power sonsumption in kWh:");
 	        			int usePower = Integer.parseInt(reader.readLine());
-	        			ChargingStation newChrgStation = new ChargingStation(useName, useLocation, usePower);
+	        			ChargingStation newChrgStation = new ChargingStation(useName, useLocation, usePower, mainBattery);
 	        			engSys.addChargingStation(newChrgStation);
 	        			System.out.println("New consumer added.");
+	        			// Start automatic data exchange
+	        	        new Thread(newChrgStation).start();
 	        			continue;
 	        		}
 	        	}else if(input.equals("adj src")) {

@@ -83,6 +83,7 @@ public class EnergySource implements Runnable {
 	@Override
 	public void run() {
 		try {
+			this.dataExchange();
 			int chargeAmount = (int)currentPowerProduction; 
 			battery.charge(chargeAmount);
 

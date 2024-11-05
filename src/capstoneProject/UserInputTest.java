@@ -40,6 +40,7 @@ class UserInputTest {
 	@Test
 	void testMainAddChrg() throws IOException, IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
 		final EnergySystem engsys = new EnergySystem();
+		Battery mainBattery = new Battery("mainBattery", 1000);
 		final Field field = engsys.getClass().getDeclaredField("chargingStations");
         field.setAccessible(true);
 		List<ChargingStation> list  = (List<ChargingStation>) field.get(engsys);
@@ -55,7 +56,7 @@ class UserInputTest {
 			String useLocation = "test";
 			System.out.println("Please specify the consumers' maximum power sonsumption in kWh:");
 			int usePower = 100;
-			ChargingStation newChrgStation = new ChargingStation(useName, useLocation, usePower);
+			ChargingStation newChrgStation = new ChargingStation(useName, useLocation, usePower,mainBattery);
 			engsys.addChargingStation(newChrgStation);
 			System.out.println("New consumer added.");
 		}
@@ -99,7 +100,8 @@ class UserInputTest {
 	@Test
 	void testMainAdjChrg() throws IOException, ChainException, MultipleExceptions {
 			final EnergySystem engsys = new EnergySystem();
-			ChargingStation chrgStation = new ChargingStation("test", "test", (float)100);
+			Battery mainBattery = new Battery("mainBattery", 1000);
+			ChargingStation chrgStation = new ChargingStation("test", "test", (float)100,mainBattery);
 			engsys.addChargingStation(chrgStation);
 			List<ChargingStation> chargingStations = engsys.getChargingStations();
 			String userChngName = "test";
@@ -132,7 +134,8 @@ class UserInputTest {
 	void testMainCheckPower() throws IOException {
 		EnergySystem engSys = new EnergySystem();
 		EnergySource engSource = new EnergySource("test", "test", (float) 100);
-		ChargingStation chrgStation = new ChargingStation("test", "test", (float) 110);
+		Battery mainBattery = new Battery("mainBattery", 1000);
+		ChargingStation chrgStation = new ChargingStation("test", "test", (float) 110,mainBattery);
 		engSys.addChargingStation(chrgStation);
         engSys.addEnergySource(engSource);
 		List<ChargingStation> chargingStations;

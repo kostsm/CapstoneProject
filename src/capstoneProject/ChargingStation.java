@@ -5,20 +5,22 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.time.LocalDate;
 
-public class ChargingStation {
+public class ChargingStation implements Runnable{
 	private String name;
 	private String location;
 	private float currentPowerConsumption;
 	private float maxPowerConsumption;
 	private int powerLevel;
 	private LogFile logs;
+	private Battery battery;
 	
-	public ChargingStation(String name, String location, float maxPowerConsumption) throws IOException {
+	public ChargingStation(String name, String location, float maxPowerConsumption, Battery battery) throws IOException {
 		this.name = name;
 		this.location = location;
 		this.maxPowerConsumption = maxPowerConsumption; // Here we need to specify the exact number, not % (max consumption)
 		this.currentPowerConsumption = maxPowerConsumption;
 		this.logs = new LogFile(name, LocalDate.now());
+		this.battery = battery;
 	}
 	
 	// Getters and setters
@@ -80,5 +82,20 @@ public class ChargingStation {
 		if (!exceptions.getExceptions().isEmpty()) {
 			throw exceptions;
 		}
+	}
+	
+	@Override
+	public void run() {
+		try {
+			this.dataExchange();
+			int drawAmount = (int)currentPowerConsumption; 
+			battery.drain(drawAmount);
+			logs.writeData("Drained " + drawAmount + " units from battery "+ battery.getName(), LogFile.LogLevel.INFO);
+
+			//dataExchange();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 }

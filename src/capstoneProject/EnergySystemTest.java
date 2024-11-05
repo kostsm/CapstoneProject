@@ -23,10 +23,11 @@ class EnergySystemTest {
 	void testAddChargingStation() throws NoSuchFieldException, IOException,IllegalAccessException {
 		final EnergySystem engsys = new EnergySystem();
 		final Field field = engsys.getClass().getDeclaredField("chargingStations");
+		Battery mainBattery = new Battery("mainBattery", 1000);
         field.setAccessible(true);
 		List<ChargingStation> list  = (List<ChargingStation>) field.get(engsys);
 		int length1 = list.size();
-		ChargingStation chrgStat = new ChargingStation("test", "test",(float) (0.0));
+		ChargingStation chrgStat = new ChargingStation("test", "test",(float) (0.0),mainBattery);
 		engsys.addChargingStation(chrgStat);
 		list  = (List<ChargingStation>) field.get(engsys);
 		int length2 = list.size();
