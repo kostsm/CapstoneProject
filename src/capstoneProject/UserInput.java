@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.time.LocalDate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -62,8 +64,8 @@ public class UserInput {
         EnergySource engSource = new EnergySource(sourceName, sourceType, sourceMaxPower, mainBattery);
     	ChargingStation chrgStation = new ChargingStation(consumerName, consumerLocation, consumerMaxPower, mainBattery);
     	
-    	new Thread(engSource).start();
-    	new Thread(chrgStation).start();
+    	//new Thread(engSource).start();
+    	//new Thread(chrgStation).start();
     	
      // establish energy system and add src and consumer
         EnergySystem engSys = new EnergySystem();
@@ -73,6 +75,13 @@ public class UserInput {
         List<ChargingStation> chargingStations;
         List<EnergySource> energySources;
         
+        
+        ExecutorService executorService = Executors.newCachedThreadPool();
+        
+        executorService.submit(engSource);
+        executorService.submit(chrgStation);
+
+
         LogFileManager logMng = new LogFileManager();
         
         File dir = new File("logs/");
@@ -141,6 +150,7 @@ public class UserInput {
 	        	String input = reader.readLine();
 	        	if(input.equals("end")) {
 	        		// end interface & exit program
+	        		executorService.shutdownNow();
 	        		System.out.println("Leaving smart home...");
 	        		break;
 	        	}else if(input.equals("add src")) {
@@ -160,7 +170,7 @@ public class UserInput {
 	        			engSys.addEnergySource(newEngSource);
 	        			System.out.println("New Energy Source added.");
 	        			// Start automatic data exchange
-	        			new Thread(newEngSource).start();
+	        			executorService.submit(newEngSource);
 	        			continue;
 	        		}
 	        	}else if(input.equals("add cons")) {
@@ -180,7 +190,7 @@ public class UserInput {
 	        			engSys.addChargingStation(newChrgStation);
 	        			System.out.println("New consumer added.");
 	        			// Start automatic data exchange
-	        	        new Thread(newChrgStation).start();
+	        			executorService.submit(newChrgStation);
 	        			continue;
 	        		}
 	        	}else if(input.equals("adj src")) {
@@ -200,14 +210,14 @@ public class UserInput {
 	                			if (newPower<=100&&newPower>=0) {
 	                				src.setPower(newPower);
 	                				System.out.println(src.getName() +" now produces "+ src.getCurrentPower() + "kWh.");
-	                				/*try {
+	                				try {
 	                					src.dataExchange();
 	                				}
 	                				catch (MultipleExceptions me) {
 	                					System.err.println("Error exchanging data for energy source " + src.getName());
 	                					for (Exception e: me.getExceptions()) {
 	                						e.printStackTrace();	                					}
-	                				}*/
+	                				}
 	                			}else {
 	                				System.out.println("Please specify a percentage between 0 and 100");
 	                			}
@@ -234,14 +244,14 @@ public class UserInput {
 	                			if (newPower<=100&&newPower>=0) {
 		                			chrg.setPower(newPower);
 		                			System.out.println(chrg.getName() +" now consumes "+ chrg.getCurrentPower() + "kWh.");
-		                			/*try {
+		                			try {
 		                				chrg.dataExchange();
 		                			}
 		                			catch (MultipleExceptions me) {
 	                					System.err.println("Error exchanging data for charging station " + chrg.getName());
 	                					for (Exception e: me.getExceptions()) {
 	                						e.printStackTrace();	                					}
-	                				}*/
+	                				}
 	                			}else {
 	                				System.out.println("Please specify a percentage between 0 and 100");
 	                			}

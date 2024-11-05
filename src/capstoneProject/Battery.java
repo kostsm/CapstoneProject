@@ -3,7 +3,7 @@ package capstoneProject;
 public class Battery {
 	private final String name;
 	private final int maxPower;
-	private int currentPower;
+	private double currentPower;
 
 	public Battery(String name, int capacity) {
 		this.name = name;
@@ -15,28 +15,27 @@ public class Battery {
 		return name;
 	}
 
-	public synchronized void charge(int num) {
-		if (num < 0) {
+	public synchronized void charge(double chargeAmount) {
+		if (chargeAmount < 0) {
 			throw new IllegalArgumentException("Charge amount should be >0");
 		}
 
-		int charge = currentPower + num;
-		// Does this kind of value check make sense if currentPower is overwritten by charge anyway?
+		double charge = currentPower + chargeAmount;
 		if (charge > maxPower) {
-			currentPower = maxPower;
+			charge = maxPower;
 		}
 		currentPower = charge;
 
-		System.out.println(Thread.currentThread().getName() + " charging " + num + " to " + name);
+		System.out.println(Thread.currentThread().getName() + " charging " + chargeAmount + " to " + name);
 		System.out.println("Battery " + name + " charged: " + currentPower + "/" + maxPower);
 	}
 	
-	public synchronized void drain(int num) {
+	public synchronized void drain(double num) {
 		if (num < 0) {
 			throw new IllegalArgumentException("Drain amount should be >0");
 		}
 
-		int charge = currentPower - num;
+		double charge = currentPower - num;
 		
 		if (charge < 0) {
 			charge = 0;
