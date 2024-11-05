@@ -32,6 +32,7 @@ CapstoneProject/
 ├── logs/                   # Log files generated during execution
 ├── src/                    # Source code for the project
 │   └── capstoneProject/    # Main package with project classes and tests
+│       ├── Battery.java
 │       ├── ChainException.java
 │       ├── ChargingStation.java
 │       ├── ChargingStationTest.java
@@ -46,7 +47,6 @@ CapstoneProject/
 │       ├── MultipleExceptionsTest.java
 │       ├── TestSuite.java
 │       ├── UserInput.java
-│       ├── Battery.java
 │       └── UserInputTest.java
 ├── .classpath              # Classpath configurations for the project
 ├── .project                # Project configurations
