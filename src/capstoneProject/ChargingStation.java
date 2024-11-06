@@ -87,8 +87,8 @@ public class ChargingStation implements Runnable{
 	@Override
 	public void run() {
 		try {
-			for (int i =0; i < 5; i++) {
-				double drawAmount = currentPowerConsumption/5; 
+			for (int i =0; i < 10; i++) {
+				double drawAmount = currentPowerConsumption/10; 
 				battery.drain(drawAmount);
 				logs.writeData("Drained " + drawAmount + " units from battery "+ battery.getName(), LogFile.LogLevel.INFO);
 				Thread.sleep(3000);
