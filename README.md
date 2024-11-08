@@ -1,9 +1,9 @@
 # Java Compact Programming Course: Group 6
 ## Used IDE - Eclipse IDE 2024-06
 
-## Project Overview
+## Lab2 Overview
 
-This project is developed as part of the Java Compact Programming Course. It simulates a smart energy system, incorporating various Java programming concepts such as OOP, exception handling, unit testing, resource management, concurrency and more.
+This lab is developed as part of the Java Compact Programming Course. It simulates a smart energy system, incorporating exceptions handling and implementing unit test for created classes to ensure the correctness of the developing system.
 
 ### Team Members and Tasks
 
@@ -22,9 +22,9 @@ This project is developed as part of the Java Compact Programming Course. It sim
   - *specify*
 ---
 
-## Project Structure - CapstoneProject
+## Project Structure - Lab2
 
-The project is organized as follows:
+The Lab2 is organized as follows:
 
 ```
 CapstoneProject/
