@@ -25,11 +25,11 @@ This project is developed as part of the Java Compact Programming Course. It sim
     - `createLog()`: Handles the creation of new log files.
     - `moveLog()`: Manages the transfer of log files to specific directories.
     - `openLog()`: Facilitates opening and reading log files.
- - Extended the LogFile class with:
+  - Extended the LogFile class with:
     - `readData()`: Reads data from log files.
     - `writeData()`: Writes data to log files.
     - `Getters and setters` for log file properties.
-- Contributed to the Concurrency_Task.pdf, addressing:
+  - Contributed to the Concurrency_Task.pdf, addressing:
    - Comparison of concurrency models: Highlighting pros and cons.
    - Differences between Concurrency vs Parallelism.
    - Usage of Blocking vs Non-blocking Concurrency Algorithms.
