@@ -20,7 +20,7 @@ public class UserInput {
 	public static void main(String args[])throws IOException
     {	
 		System.out.println("Current working directory: " + new File(".").getAbsolutePath());
-		
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		// Create first Energy source
 		System.out.println("Welcome to your new smart Home. Please create a new energy Source by naming it:");
         // Using Scanner for Getting Input from User
@@ -31,7 +31,7 @@ public class UserInput {
 		String consumerName = "";
 		String consumerLocation = "";
 		int consumerMaxPower = 0;
-        try(BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))){
+        try {
 
 	        // Reading data using readLine
 	        sourceName = reader.readLine();
@@ -100,7 +100,7 @@ public class UserInput {
         }).start();
         
         // run user interface
-        try(BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))){
+        try {
 	        while(true) {
 	        	System.out.println("\n Welcome to the smart home user interface. Your options:");
 	        	System.out.println("<add src> to add another power source");
