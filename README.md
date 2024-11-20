@@ -24,7 +24,7 @@ This project is developed as part of the Java Compact Programming Course. It sim
   - Enhanced the `LogFileManager` class with the following implementations:
     - `createLog()`: Handles the creation of new log files.
     - `moveLog()`: Manages the transfer of log files to specific directories.
-    - `openLog()`: Facilitates opening and reading log files.
+    - `openLog()`: Facilitates opening log files.
   - Extended the LogFile class with:
     - `readData()`: Reads data from log files.
     - `writeData()`: Writes data to log files.
