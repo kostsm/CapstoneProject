@@ -30,9 +30,9 @@ This project is developed as part of the Java Compact Programming Course. It sim
     - `writeData()`: Writes data to log files.
     - `Getters and setters` for log file properties.
   - Contributed to the Concurrency_Task.pdf, addressing:
-   - Comparison of concurrency models: Highlighting pros and cons.
-   - Differences between Concurrency vs Parallelism.
-   - Usage of Blocking vs Non-blocking Concurrency Algorithms.
+    - Comparison of concurrency models: Highlighting pros and cons.
+    - Differences between Concurrency vs Parallelism.
+    - Usage of Blocking vs Non-blocking Concurrency Algorithms.
 
 ---
 
