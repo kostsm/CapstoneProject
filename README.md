@@ -19,7 +19,18 @@ This lab is developed as part of the Java Compact Programming Course. It simulat
   - Created Unit Tests for `UserInput` and `EnergySystem` classes
     
 - **Allen Mwandunga - 7219535**:
-  - *specify*
+  - Enhanced the `LogFileManager` class with the following implementations:
+    - `createLog()`: Handles the creation of new log files.
+    - `moveLog()`: Manages the transfer of log files to specific directories.
+    - `openLog()`: Facilitates opening log files.
+  - Extended the LogFile class with:
+    - `readData()`: Reads data from log files.
+    - `writeData()`: Writes data to log files.
+    - `Getters and setters` for log file properties.
+  - Contributed to the Concurrency_Task.pdf, addressing:
+    - Comparison of concurrency models: Highlighting pros and cons.
+    - Differences between Concurrency vs Parallelism.
+    - Usage of Blocking vs Non-blocking Concurrency Algorithms.
 ---
 
 ## Project Structure - Lab2
