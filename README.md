@@ -1,4 +1,7 @@
 # Java Compact Programming Course: Group 6
+
+## Every lab files are located in the corresponding branch: lab1, lab2, lab3
+
 ## Used IDE - Eclipse IDE 2024-06
 
 ## Project Overview
