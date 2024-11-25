@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.NumberFormat;
@@ -253,10 +254,13 @@ public class AppWindow extends JFrame{
 	}
 	
 	public void readConf() {
-		JFileChooser j = new JFileChooser();
+	
 		String filePath = null;
 		 
-        // invoke the showsOpenDialog function to show the save dialog
+		File currentDirectory = new File(System.getProperty("user.dir"));
+
+        // Create a JFileChooser with the current working directory
+        JFileChooser j = new JFileChooser(currentDirectory);
         int r = j.showOpenDialog(null);
 
         // if the user selects a file
