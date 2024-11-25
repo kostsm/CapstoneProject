@@ -56,7 +56,7 @@ CapstoneProject/
 ├── config/                 # Starting configurations for the simulation
 ├── src/                    # Source code for the project
 │   ├── layout/             # Grid-style layouts with SpringLayout
-│   │   ├── SpringUtilities.java
+│   │   └── SpringUtilities.java
 │   └── capstoneProject/    # Main package with project classes and tests
 │       ├── AppWindow.java
 │       ├── Battery.java
