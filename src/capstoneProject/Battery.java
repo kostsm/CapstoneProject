@@ -2,7 +2,7 @@ package capstoneProject;
 
 public class Battery {
 	private final String name;
-	private final int maxPower;
+	final int maxPower;
 	private double currentPower;
 
 	public Battery(String name, int capacity) {
