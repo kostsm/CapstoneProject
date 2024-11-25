@@ -13,8 +13,10 @@ This project is developed as part of the Java Compact Programming Course. It sim
 - **Konstantin Smirnov - 7221877**:
   - Creating classes: `EnergySource`, `ChargingStation`, `EnergySystem`, `Battery`, `LogFile` (with placeholders methods), `LogFileManagement` (with placeholders methods)
   - Handling Multiple Exceptions
-  - Creating Unit Tests for `ChargingStation` and `EnergySource` classes
+  - Creating Unit Tests for `ChargingStation` and `EnergySource`and `Battery` classes
   - Simulation of multi-thread charging of the battery from energy sources
+  - Creating UML Diagram of the classes in the project
+  - Making a list of requirements
 
 - **Sebastian Rudolph - 7215190**:
   - Creating classes: `UserInput`, `AppWindow`
@@ -53,7 +55,10 @@ CapstoneProject/
 ├── logs/                   # Log files generated during execution
 ├── config/                 # Starting configurations for the simulation
 ├── src/                    # Source code for the project
+│   ├── layout/             # Grid-style layouts with SpringLayout
+│   │   ├── SpringUtilities.java
 │   └── capstoneProject/    # Main package with project classes and tests
+│       ├── AppWindow.java
 │       ├── Battery.java
 │       ├── BatteryTest.java
 │       ├── ChainException.java
@@ -63,6 +68,7 @@ CapstoneProject/
 │       ├── EnergySourceTest.java
 │       ├── EnergySystem.java
 │       ├── EnergySystemTest.java
+│       ├── FileProcessor.java
 │       ├── LogFile.java
 │       ├── LogFileManager.java
 │       ├── LogFileManagerTest.java
