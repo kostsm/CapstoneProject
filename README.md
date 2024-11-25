@@ -52,6 +52,7 @@ CapstoneProject/
 ├── src/                    # Source code for the project
 │   └── capstoneProject/    # Main package with project classes and tests
 │       ├── Battery.java
+│       ├── BatteryTest.java
 │       ├── ChainException.java
 │       ├── ChargingStation.java
 │       ├── ChargingStationTest.java
