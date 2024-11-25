@@ -17,11 +17,13 @@ This project is developed as part of the Java Compact Programming Course. It sim
   - Simulation of multi-thread charging of the battery from energy sources
 
 - **Sebastian Rudolph - 7215190**:
-  - Creating classes: `UserInput`
+  - Creating classes: `UserInput`, `AppWindow`
   - Implemented Re-Throwing of exceptions in `LogFile` and `LogFileManager`
   - Added resource manager for all Buffered Readers in `UserInput` and `LogFile`
   - Created Unit Tests for `UserInput` and `EnergySystem` classes
   - Simulation of multi-thread draining of the battery by consumers
+  - Integrated Graphic User Interface to work with all previously created functionalities
+  - Initial configuration loading
     
 - **Allen Mwandunga - 7219535**:
   - Enhanced the `LogFileManager` class with the following implementations:
