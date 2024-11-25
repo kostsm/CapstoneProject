@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.apple.eawt.Application;
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -33,7 +35,7 @@ import javax.swing.UIManager;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
-import com.apple.eawt.Application;
+
 
 import layout.SpringUtilities;
 
@@ -46,8 +48,6 @@ public class AppWindow extends JFrame{
 	List<ChargingStation> chargingStations;
     List<EnergySource> energySources;
     static ExecutorService executorService = Executors.newCachedThreadPool();
-	JTextField 	textfield_dm;
-	JTextField 	textfield_euro;
 	
 	JLabel lbl_numSrc;
 	JLabel lbl_numCons;
@@ -69,11 +69,16 @@ public class AppWindow extends JFrame{
 
 	public AppWindow() throws IOException {
 		engSys = new EnergySystem();
-		GridLayout mainLayout = new GridLayout(0,3);
-		this.getContentPane().setLayout(mainLayout);
+		
+		
+		
+		
+//		GridLayout mainLayout = new GridLayout(0,3);
+		
+		this.getContentPane().setLayout(new GridBagLayout());
 
 		this.initWindow();
-
+		
 		this.addWindowListener(new WindowListener() {
 
 			public void windowClosed(WindowEvent arg0) {
@@ -118,10 +123,9 @@ public class AppWindow extends JFrame{
 
 	protected void initWindow() 
 	{
-		// Instanciate:
-		textfield_dm = new JTextField();
-		textfield_euro = new JTextField();
-		
+		this.setLocationRelativeTo(null);
+		// Instanciate:		
+		GridBagConstraints gbc = new GridBagConstraints();
 		btn_addSrc = new JButton ("Add source");
 		btn_addCons = new JButton ("Add consumer");
 		btn_adjSrc = new JButton ("Adjust source");
@@ -201,18 +205,50 @@ public class AppWindow extends JFrame{
 		});
 		
 		// Add Elements to Window:
-		this.getContentPane().add(lbl_numSrc);
-		this.getContentPane().add(lbl_numCons);
-		this.getContentPane().add(lbl_pwrProd);
-		this.getContentPane().add(lbl_pwrCons);
-		
-		this.getContentPane().add(btn_addSrc);
-		this.getContentPane().add(btn_addCons);
-		this.getContentPane().add(btn_adjSrc);
-		this.getContentPane().add(btn_adjCons);
-		this.getContentPane().add(btn_saveLog);
-		this.getContentPane().add(btn_loadConf);
-
+		gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        this.getContentPane().add(lbl_numSrc, gbc);
+        
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+//        gbc.gridwidth = 1;
+        this.getContentPane().add(lbl_numCons, gbc);
+        
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        this.getContentPane().add(lbl_pwrProd, gbc);
+        
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        this.getContentPane().add(lbl_pwrCons, gbc);
+        
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 1;
+        this.getContentPane().add(btn_addSrc, gbc);
+        
+        gbc.gridx = 1;
+        gbc.gridy = 4;
+        this.getContentPane().add(btn_addCons, gbc);
+        
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        this.getContentPane().add(btn_adjSrc, gbc);
+        
+        gbc.gridx = 1;
+        gbc.gridy = 5;
+        this.getContentPane().add(btn_adjCons, gbc);
+        
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        this.getContentPane().add(btn_saveLog, gbc);
+        
+        gbc.gridx = 1;
+        gbc.gridy = 6;
+        this.getContentPane().add(btn_loadConf, gbc);
+        
 		this.pack();
 	}
 	
