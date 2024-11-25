@@ -8,8 +8,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.text.NumberFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -18,6 +21,7 @@ import java.util.concurrent.Executors;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -35,13 +39,13 @@ import layout.SpringUtilities;
 
 
 public class AppWindow extends JFrame{
-	Battery mainBattery = new Battery("mainBattery", 1000);
-	EnergySystem engSys;
+	static Battery mainBattery = new Battery("mainBattery", 1000);
+	static EnergySystem engSys;
 	
 	
 	List<ChargingStation> chargingStations;
     List<EnergySource> energySources;
-    ExecutorService executorService = Executors.newCachedThreadPool();
+    static ExecutorService executorService = Executors.newCachedThreadPool();
 	JTextField 	textfield_dm;
 	JTextField 	textfield_euro;
 	
@@ -135,11 +139,9 @@ public class AppWindow extends JFrame{
 		btn_addSrc.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
 				try {
 					addEnergySource();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -149,15 +151,12 @@ public class AppWindow extends JFrame{
 		btn_addCons.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
 				try {
 					addConsumer();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-
 		});
 		
 		btn_adjSrc.addActionListener(new ActionListener() {
@@ -165,7 +164,6 @@ public class AppWindow extends JFrame{
 			public void actionPerformed(ActionEvent arg0) {
 				adjSrc();
 			}
-
 		});
 		
 		btn_adjCons.addActionListener(new ActionListener() {
@@ -173,7 +171,33 @@ public class AppWindow extends JFrame{
 			public void actionPerformed(ActionEvent arg0) {
 				adjCons();
 			}
+		});
+		
+		btn_saveLog.addActionListener(new ActionListener() {
 
+			public void actionPerformed(ActionEvent arg0) {
+				LogFileManager logFileManager = new LogFileManager();
+				try {
+					for (ChargingStation chrg : chargingStations) {
+						logFileManager.createLog(chrg.getName(), LocalDate.now()) ;
+					}
+					for (EnergySource src : energySources) {
+						logFileManager.createLog(src.getName(), LocalDate.now()) ;
+					}
+				}catch (IOException e) {
+					e.printStackTrace();
+				} catch (ChainException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		btn_loadConf.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent arg0) {
+				readConf();
+				updateWindow();
+			}
 		});
 		
 		// Add Elements to Window:
@@ -190,6 +214,94 @@ public class AppWindow extends JFrame{
 		this.getContentPane().add(btn_loadConf);
 
 		this.pack();
+	}
+	
+	public void readConf() {
+		JFileChooser j = new JFileChooser();
+		String filePath = null;
+		 
+        // invoke the showsOpenDialog function to show the save dialog
+        int r = j.showOpenDialog(null);
+
+        // if the user selects a file
+        if (r == JFileChooser.APPROVE_OPTION)
+
+        {
+            // set the label to the path of the selected file
+            filePath = j.getSelectedFile().getAbsolutePath();
+            System.out.println(filePath);
+            try (BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))) {
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    processLine(line);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+        	System.out.println("user aborted file selection");
+        }
+        
+        
+	}
+	
+	public static void processLine(String line) throws IOException {
+        String[] attributes = line.split(";");
+        String objectType = null;
+        String name = null, location = null, typeOfSource = null, battery_name = null;
+        float maxPowerConsumption = 0, maxPowerProduction = 0;
+        int capacity = 0;
+
+        for (String attribute : attributes) {
+            String[] keyValue = attribute.split("=");
+            String key = keyValue[0].replaceAll("\"", "").trim();
+            String value = keyValue[1].replaceAll("\"", "").trim();
+            
+
+            switch (key) {
+                case "object_type":
+                    objectType = value;
+                    break;
+                case "name":
+                    name = value;
+                    break;
+                case "location":
+                    location = value;
+                    break;
+                case "maxPowerConsumption":
+                    maxPowerConsumption = Float.parseFloat(value);
+                    break;
+                case "typeOfSource":
+                    typeOfSource = value;
+                    break;
+                case "maxPowerProduction":
+                    maxPowerProduction = Float.parseFloat(value);
+                    break;
+                case "capacity":
+                    capacity = Integer.parseInt(value);
+                    break;
+                case "battery_name":
+                	battery_name = value;
+            }
+        }
+
+        switch (objectType) {
+            case "chargingStation":
+            	ChargingStation chargingStation;
+				chargingStation = new ChargingStation(name, location, maxPowerConsumption, mainBattery);
+				engSys.addChargingStation(chargingStation);
+				executorService.submit(chargingStation);
+				break;
+            case "powerSource":
+                EnergySource powerSource = new EnergySource(name, typeOfSource, maxPowerProduction, mainBattery);
+                engSys.addEnergySource(powerSource);
+                executorService.submit(powerSource);
+                break;
+            case "battery":
+                Battery mainBattery = new Battery(name, capacity);
+                break;
+        }
 	}
 	
 	public void updateWindow() {
@@ -268,7 +380,6 @@ public class AppWindow extends JFrame{
         btn_saveSrc.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
 				try {
 					String sourceName = txtfield_name.getText();
 			        String sourceType = txtfield_type.getText();
@@ -282,11 +393,9 @@ public class AppWindow extends JFrame{
 			        
 			        
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-
 		});
         
         btn_cancel.addActionListener(new ActionListener() {
@@ -295,10 +404,7 @@ public class AppWindow extends JFrame{
 				updateWindow();
 				frame.dispose();
 			}
-
-		});
-        
-        
+		}); 
 	}
 	
 	public void addConsumer() throws IOException {
@@ -352,7 +458,6 @@ public class AppWindow extends JFrame{
         btn_saveSrc.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
 				try {
 					String consName = txtfield_name.getText();
 			        String consLocation = txtfield_location.getText();
@@ -363,14 +468,11 @@ public class AppWindow extends JFrame{
 			        executorService.submit(consumer);
 			        updateWindow();
 			        frame.dispose();
-			        
-			        
+			           
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-
 		});
         
         btn_cancel.addActionListener(new ActionListener() {
@@ -379,10 +481,7 @@ public class AppWindow extends JFrame{
 				updateWindow();
 				frame.dispose();
 			}
-
 		});
-        
-        
 	}
 	
 	public void adjSrc() {
@@ -456,7 +555,6 @@ public class AppWindow extends JFrame{
 				updateWindow();
 				frame.dispose();
 			}
-
 		});
         
         btn_cancel.addActionListener(new ActionListener() {
@@ -465,7 +563,6 @@ public class AppWindow extends JFrame{
 				updateWindow();
 				frame.dispose();
 			}
-
 		});
         
 

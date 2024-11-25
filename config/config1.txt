@@ -1,0 +1,6 @@
+"object_type"=Battery;"name"=mainBattery;"capacity"=1000
+"object_type"=powerSource;"name"=source1;"typeOfSource"=solar;"maxPowerProduction"=100
+"object_type"=powerSource;"name"=source2;"typeOfSource"=solar;"maxPowerProduction"=100
+"object_type"=chargingStation;"name"=consumer1;"location"=garage;"maxPowerConsumption"=80
+"object_type"=chargingStation;"name"=consumer2;"location"=kitchen;"maxPowerConsumption"=20
+"object_type"=chargingStation;"name"=consumer3;"location"=cellar;"maxPowerConsumption"=80
