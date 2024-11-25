@@ -15,12 +15,18 @@ import capstoneProject.EnergySource;
 import capstoneProject.ChargingStation;
 import capstoneProject.EnergySystem;
 import capstoneProject.LogFileManager;
+import capstoneProject.AppWindow;
 
 
 
-public class UserInput {	
+public class UserInput {
+	Battery mainBattery = new Battery("mainBattery", 1000);
 	public static void main(String args[])throws IOException
     {	
+		
+		AppWindow theAppWindow = new AppWindow();
+		theAppWindow.setBounds(10, 10, 420, 180);
+		theAppWindow.show();
 		System.out.println("Current working directory: " + new File(".").getAbsolutePath());
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		// Create first Energy source
