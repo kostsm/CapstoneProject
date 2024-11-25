@@ -51,6 +51,7 @@ CapstoneProject/
 ├── .settings/              # Settings for classes
 ├── bin/                    # Compiled binary files
 ├── logs/                   # Log files generated during execution
+├── config/                 # Starting configurations for the simulation
 ├── src/                    # Source code for the project
 │   └── capstoneProject/    # Main package with project classes and tests
 │       ├── Battery.java
