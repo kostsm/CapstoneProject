@@ -7,39 +7,39 @@ import org.junit.jupiter.api.Test;
 
 public class BatteryTest {
 
-	private Battery battery;
+    private Battery battery;
 
-	@BeforeEach
-	public void setUp() {
-		battery = new Battery("TestBattery", 1000);
-	}
+    @BeforeEach
+    public void setUp() {
+	battery = new Battery("TestBattery", 1000);
+    }
 
-	@Test
-	public void testConstructor() {
-		assertEquals("TestBattery", battery.getName());
-		assertEquals(1000, battery.maxPower);
-		assertEquals(0.0, battery.getCurrentPower(), 0.001);
-	}
+    @Test
+    public void testConstructor() {
+	assertEquals("TestBattery", battery.getName());
+	assertEquals(1000, battery.maxPower);
+	assertEquals(0.0, battery.getCurrentPower(), 0.001);
+    }
 
-	@Test
-	public void testChargeValid() {
-		battery.charge(500.0);
-		assertEquals(500.0, battery.getCurrentPower(), 0.001);
-	}
+    @Test
+    public void testChargeValid() {
+	battery.charge(500.0);
+	assertEquals(500.0, battery.getCurrentPower(), 0.001);
+    }
 
-	@Test
+    @Test
     public void testChargeOverMaxPower() {
-		battery.charge(1200.0);
-		assertEquals(1000.0, battery.getCurrentPower(), 0.001);
-	}
+	battery.charge(1200.0);
+	assertEquals(1000.0, battery.getCurrentPower(), 0.001);
+    }
 
-	@Test
-	public void testChargeNegative() {
-		Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-			battery.charge(-100.0);
-		});
-		assertEquals("Charge amount should be >0", exception.getMessage());
-	}
+    @Test
+    public void testChargeNegative() {
+	Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+		battery.charge(-100.0);
+	});
+	assertEquals("Charge amount should be >0", exception.getMessage());
+    }
 
     @Test
     public void testDrainValid() {
