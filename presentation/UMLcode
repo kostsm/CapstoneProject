@@ -1,0 +1,190 @@
+@startuml
+' UserInput class at the top
+class UserInput {
+    +main(args : String[]) : void
+}
+
+' AppWindow class
+class AppWindow {
+    +AppWindow() <<constructor>>
+    +readConf() : void
+    +updateWindow() : void
+    +addEnergySource() : void
+    +addConsumer() : void
+    +adjSrc() : void
+    +adjCons() : void
+    -initWindow() : void
+    -processLine(line : String) : void
+    --
+    -static Battery mainBattery
+    -static EnergySystem engSys
+}
+
+' Battery class
+class Battery {
+    -name : String
+    -maxPower : int
+    -currentPower : double
+    --
+    +Battery(name : String, capacity : int) <<constructor>>
+    +getName() : String
+    +charge(chargeAmount : double) : void
+    +drain(num : double) : void
+    +getCurrentPower() : double
+}
+
+' EnergySource class
+class EnergySource {
+    -name : String
+    -type : String
+    -maxPowerProduction : float
+    -currentPowerProduction : float
+    -logs : LogFile
+    -battery : Battery
+    --
+    +EnergySource(name : String, type : String, maxPowerProduction : float, battery : Battery) <<constructor>>
+    +getName() : String
+    +getType() : String
+    +getCurrentPower() : float
+    +getMaxPower() : float
+    +setPower(power : float) : void
+    +dataExchange() : void
+    +run() : void
+}
+
+' ChargingStation class
+class ChargingStation {
+    -name : String
+    -location : String
+    -currentPowerConsumption : float
+    -maxPowerConsumption : float
+    -powerLevel : int
+    -logs : LogFile
+    -battery : Battery
+    --
+    +ChargingStation(name : String, location : String, maxPowerConsumption : float, battery : Battery) <<constructor>>
+    +getName() : String
+    +getLocation() : String
+    +getCurrentPower() : float
+    +getMaxPower() : float
+    +setPower(power : float) : void
+    +dataExchange() : void
+    +run() : void
+}
+
+' EnergySystem class
+class EnergySystem {
+    -chargingStations : List<ChargingStation>
+    -energySources : List<EnergySource>
+    -logs : LogFile
+    --
+    +EnergySystem() <<constructor>>
+    +addChargingStation(station : ChargingStation) : void
+    +addEnergySource(source : EnergySource) : void
+    +getEnergySources() : List<EnergySource>
+    +getChargingStations() : List<ChargingStation>
+}
+
+' LogFile class
+class LogFile {
+    -fileName : String
+    -equipmentName : String
+    -date : LocalDate
+    -file : File
+    --
+    +LogFile(equipmentName : String, date : LocalDate) <<constructor>>
+    +getFileName() : String
+    +getEquipmentName() : String
+    +getDate() : LocalDate
+    +readData() : String
+    +writeData(message : String, logLevel : LogLevel) : void
+}
+
+' LogFileManager class
+class LogFileManager {
+    +createLog(equipmentName : String, date : LocalDate) : void
+    +moveLog(logPath : String, destinationPath : String) : void
+    +deleteLog(logPath : String) : void
+    +archiveLog(logPath : String) : void
+    +openLog(equipmentName : String, date : LocalDate) : LogFile
+}
+
+' MultipleExceptions class
+class MultipleExceptions {
+    -exceptions : List<Exception>
+    --
+    +MultipleExceptions(message : String) <<constructor>>
+    +addException(e : Exception) : void
+    +getExceptions() : List<Exception>
+}
+
+' ChainException class
+class ChainException {
+    +ChainException(message : String) <<constructor>>
+    +ChainException(message : String, cause : Throwable) <<constructor>>
+}
+
+' FileProcessor class
+class FileProcessor {
+    +main(args : String[]) : void
+    -processLine(line : String) : void
+    --
+    -fileName : String = "data.txt"
+}
+
+' Interface Runnable
+interface Runnable {
+    +run() : void
+}
+
+' Relationships
+
+' UserInput relationships
+UserInput ..> AppWindow : uses
+
+' AppWindow relationships
+AppWindow ..> Battery : uses
+AppWindow ..> EnergySystem : uses
+AppWindow ..> ChargingStation : uses
+AppWindow ..> EnergySource : uses
+AppWindow ..> LogFileManager : uses
+AppWindow ..> LogFile : uses
+AppWindow ..> ChainException : handles
+
+' Runnable implementations
+EnergySource ..|> Runnable
+ChargingStation ..|> Runnable
+
+' Compositions and Aggregations
+EnergySource o-- Battery : has
+ChargingStation o-- Battery : has
+EnergySystem *-- ChargingStation : manages
+EnergySystem *-- EnergySource : manages
+
+' Additional relationships
+EnergySource ..> LogFile : uses
+ChargingStation ..> LogFile : uses
+LogFileManager ..> LogFile : manages
+LogFileManager ..> ChainException : throws
+
+MultipleExceptions --|> Exception
+ChainException --|> Exception
+
+FileProcessor ..> ChargingStation : creates
+FileProcessor ..> EnergySource : creates
+FileProcessor ..> Battery : creates
+FileProcessor ..> BufferedReader : uses
+FileProcessor ..> FileReader : uses
+FileProcessor ..> IOException : handles
+
+' Inheritance from external classes
+class JFrame
+AppWindow --|> JFrame
+
+' Declare external classes
+class Exception
+class IOException
+class BufferedReader
+class FileReader
+
+@enduml
