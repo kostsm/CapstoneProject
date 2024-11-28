@@ -26,8 +26,8 @@ public class Battery {
 		}
 		currentPower = charge;
 
-		System.out.println(Thread.currentThread().getName() + " charging " + chargeAmount + " to " + name);
-		System.out.println("Battery " + name + " charged: " + currentPower + "/" + maxPower);
+		System.out.println(Thread.currentThread().getName() + " charging " + chargeAmount + " kWh to " + name);
+		System.out.println("Battery " + name + " charged: " + currentPower/maxPower*100 + "%");
 	}
 	
 	public synchronized void drain(double num) {
@@ -42,8 +42,8 @@ public class Battery {
 		}
 		currentPower = charge;
 
-		System.out.println(Thread.currentThread().getName() + " draining " + num + " from  " + name);
-		System.out.println("Battery " + name + " charged: " + currentPower + "/" + maxPower);
+		System.out.println(Thread.currentThread().getName() + " draining " + num + " kWh from  " + name);
+		System.out.println("Battery " + name + " charged: " + currentPower/maxPower*100 + "%");
 	}
 
 	public synchronized double getCurrentPower() {
