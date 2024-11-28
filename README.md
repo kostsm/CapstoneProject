@@ -8,6 +8,8 @@
 
 This project is developed as part of the Java Compact Programming Course. It simulates a smart energy system, incorporating various Java programming concepts such as OOP, exception handling, unit testing, resource management, concurrency and more.
 
+[Here is the project presentation](https://www.canva.com/design/DAGXrA-MGxU/km3g61mWsb5e30frfMmBFQ/edit)
+
 ### Team Members and Tasks
 
 - **Konstantin Smirnov - 7221877**:
