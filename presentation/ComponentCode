@@ -1,0 +1,35 @@
+@startuml
+' Define components
+component "User Interface" as UI
+component "Energy System" as ES
+component "Energy Source" as Source
+component "Consumer" as Consumer
+component "Battery" as Battery
+component "Logging" as Logging
+component "Exception Handling" as ExceptionHandling
+component "File Processing" as FileProcessing
+
+' Define dependencies
+UI --> ES
+UI --> Logging
+UI --> FileProcessing
+
+ES --> Source
+ES --> Consumer
+
+Source --> Battery
+Consumer --> Battery
+
+Source --> Logging
+Consumer --> Logging
+
+Logging --> ExceptionHandling
+Battery --> ExceptionHandling
+Source --> ExceptionHandling
+Consumer --> ExceptionHandling
+UI --> ExceptionHandling
+
+FileProcessing --> Source
+FileProcessing --> Consumer
+FileProcessing --> ExceptionHandling
+@enduml
