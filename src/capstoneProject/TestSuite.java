@@ -7,7 +7,8 @@ import org.junit.platform.suite.api.Suite;
 @SelectClasses({
 	EnergySourceTest.class,
 	ChargingStationTest.class,
-	MultipleExceptionsTest.class
+	LogFileManagerTest.class,
+	UserInputTest.class
 })
 
 public class TestSuite {
